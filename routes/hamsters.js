@@ -59,14 +59,14 @@ router.get("/random", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
-  const docRef = await db.collection("hamsters").doc(id).get();
+  const hamstersRef = await firebase.collection("hamsters").doc(id).get();
 
-  if (!docRef.exists) {
+  if (!hamstersRef.exists) {
     res.status(404).send("Hamster does not exist");
     return;
   }
 
-  const data = docRef.data();
+  const data = hamstersRef.data();
   res.send(data);
 });
 
