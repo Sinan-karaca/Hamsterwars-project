@@ -7,7 +7,7 @@ if( process.env.PRIVATE_KEY ) {
 	serviceAccount = JSON.parse(process.env.PRIVATE_KEY)
 } else {
 	// Lokalt (på min dator)
-	serviceAccount = require("./secret.js");
+	serviceAccount = require('./secret.json');
 }
 
 admin.initializeApp({
