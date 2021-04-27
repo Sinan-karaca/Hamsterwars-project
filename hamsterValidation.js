@@ -40,29 +40,29 @@ function postValidHamsterObj(isObj) {
     error += "Parameter imgName cannot be an empty string. \n";
   }
 
-  if (!isObj.wins) {
-    error += "Parameter wins cannot be null or an empty field. \n";
-  } else if (typeof isObj.wins !== "number") {
-    error += "Parameter wins must be a number. \n";
-  } else if (isObj.wins === "") {
-    error += "Parameter wins cannot be an empty field. \n";
-  }
+//   if (!isObj.wins) {
+//     error += "Parameter wins cannot be null or an empty field. \n";
+//   } else if (typeof isObj.wins !== "number") {
+//     error += "Parameter wins must be a number. \n";
+//   } else if (isObj.wins === "") {
+//     error += "Parameter wins cannot be an empty field. \n";
+//   }
 
-  if (!isObj.defeats) {
-    error += "Parameter defeats cannot be null or an empty field. \n";
-  } else if (typeof isObj.defeats !== "number") {
-    error += "Parameter defeats must be a number. \n";
-  } else if (isObj.defeats === "") {
-    error += "Parameter defeats cannot be an empty field. \n";
-  }
+//   if (!isObj.defeats) {
+//     error += "Parameter defeats cannot be null or an empty field. \n";
+//   } else if (typeof isObj.defeats !== "number") {
+//     error += "Parameter defeats must be a number. \n";
+//   } else if (isObj.defeats === "") {
+//     error += "Parameter defeats cannot be an empty field. \n";
+//   }
 
-  if (!isObj.games) {
-    error += "Parameter games cannot be null or an empty field. \n";
-  } else if (typeof isObj.games !== "number") {
-    error += "Parameter games must be a number. \n";
-  } else if (isObj.games === "") {
-    error += "Parameter games cannot be an empty field. \n";
-  }
+//   if (!isObj.games) {
+//     error += "Parameter games cannot be null or an empty field. \n";
+//   } else if (typeof isObj.games !== "number") {
+//     error += "Parameter games must be a number. \n";
+//   } else if (isObj.games === "") {
+//     error += "Parameter games cannot be an empty field. \n";
+//   }
   return error;
 }
 function putValidHamsterObj(isObj) {

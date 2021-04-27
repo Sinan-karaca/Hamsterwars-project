@@ -1,11 +1,11 @@
 const getDatabase = require("../database.js");
 const firebase = getDatabase();
 
-const hamsterValidation = require('../hamsterValidation.js')
-const mapper = require('../hamsterMapper')
-
+const hamsterValidation = require("../hamsterValidation.js");
+const mapper = require("../hamsterMapper");
 
 const express = require("express");
+const { json } = require("express");
 const router = express.Router();
 
 // *** REST API ***
@@ -62,58 +62,90 @@ router.get("/random", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-	const id = req.params.id;
-	const hamstersRef = await firebase.collection("hamsters").doc(id).get();
+  const id = req.params.id;
+  const hamstersRef = await firebase.collection("hamsters").doc(id).get();
 
-	if (!hamstersRef.exists) {
-		res.status(404).send("Hamster does not exist");
-		return;
-	}
+  if (!hamstersRef.exists) {
+    res.status(404).send("Hamster does not exist");
+    return;
+  }
 
-	const data = hamstersRef.data();
-	res.send(data);
+  const data = hamstersRef.data();
+  res.status(200).send(data);
 });
 
 router.post("/", async (req, res) => {
-	// OBS! Måste installera express.json för att detta ska fungera
-	const object = req.body;
-	let valid = hamsterValidation.postValidHamsterObj(object)
-	if (valid !== "") {
-		res.status(400).send(valid);
-		return;
-	}
-	let hamsterObj =  mapper.mapper(object)
-	const docRef = await firebase.collection("hamsters").add(hamsterObj);
-	res.send(docRef.id);
+  // OBS! Måste installera express.json för att detta ska fungera
+  const object = req.body;
+  let valid = hamsterValidation.postValidHamsterObj(object);
+  if (valid !== "") {
+    res.status(400).send(valid);
+    return;
+  }
+  const docRef = await firebase.collection("hamsters").add(object);
+  return res.status(200).send({ id: docRef.id });
 });
 
 router.put("/:id", async (req, res) => {
-	const object = req.body;
-	const id = req.params.id;
-	if (id  === undefined) {
-		res.sendStatus(400)
-		return
-	}
+  const object = req.body;
+  const id = req.params.id;
+  if (id === undefined) {
+    res.sendStatus(400);
+    return;
+  }
 
-	let valid = hamsterValidation.putValidHamsterObj(object)
-	if (valid !== "") {
-		res.status(400).send(valid);
-		return;
-	}
+  let valid = hamsterValidation.putValidHamsterObj(object);
+  if (valid !== "") {
+    res.status(400).send(valid);
+    return;
+  }
+  const hamstersRef = await firebase.collection("hamsters").doc(id).get();
 
-	try {
-        const document = firebase.collection('hamsters').doc(id);
-        await document.set(object, { merge: false })
-        return res.status(200).send();
+  if (!hamstersRef.exists) {
+    res.status(404).send("Hamster does not exist");
+    return;
+  }
+  try {
+    const document = firebase.collection("hamsters").doc(id);
+    document.get().then((docSnapshot) => {
+      if (!docSnapshot.exists) {
+        return res.status(404).send("does not exist");
+      }
+    });
+    await document.set(object, { merge: true });
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
 
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send(error);
-    }
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
 
-  
-	const docRef = await database.collection("hamsters").doc(id).get();
+  if (!id) {
+    res.sendStatus(400);
+    return;
+  }
+  const hamstersRef = await firebase.collection("hamsters").doc(id).get();
 
-})
+  if (!hamstersRef.exists) {
+    res.status(404).send("Hamster does not exist");
+    return;
+  }
+  const deleted = await firebase
+    .collection("hamsters")
+    .doc(id)
+    .delete()
+    .then((kalle) => {
+      console.log(kalle);
+      console.log("Document successfully deleted!");
+      return res.status(200).send();
+    })
+    .catch((error) => {
+      console.error("Error removing document: ", error);
+      return res.status(500).send(error);
+    });
+});
 
 module.exports = router;
