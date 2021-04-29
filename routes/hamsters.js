@@ -61,7 +61,6 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    // OBS! Måste installera express.json för att detta ska fungera
     const object = req.body;
     let valid = hamsterValidation.postValidHamsterObj(object);
     if (valid !== "") {
@@ -123,8 +122,8 @@ router.delete("/:id", async (req, res) => {
       .collection("hamsters")
       .doc(id)
       .delete()
-      .then((kalle) => {
-        console.log(kalle);
+      .then((results) => {
+        console.log(results);
         console.log("Document successfully deleted!");
         return res.status(200).send();
       })
