@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const hamsters = require("./routes/hamsters.js");
 
-const PORT = 3233;
+const PORT = process.env.PORT || 3233;
 
 //Middleware
 app.use((req, res, next) => {
