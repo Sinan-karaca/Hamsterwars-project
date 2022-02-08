@@ -4,8 +4,7 @@ import "./Match.css";
 const Match = (trigger) => {
   const [hamsterUno, setHamsterUno] = useState(null);
   const [hamsterDos, setHamsterDos] = useState(null);
-  const [winner, setWinner] = useState(null);
-  const [loser, setLoser] = useState(null);
+  const [didHamsterUnoWin, setDidHamsterUnoWin] = useState(null);
   const [clickedHamster, setClickedHamster] = useState(false);
   
 
@@ -15,7 +14,6 @@ const Match = (trigger) => {
     );
     const data = await resp.json();
     return data;
-
   };
 
   useEffect(() => {
@@ -36,94 +34,44 @@ const Match = (trigger) => {
     getHamsters();
   }, [trigger]);
 
-  const hamsterClick = (winnerHamster, loserHamster,) => {
-    setWinner({
-      age: winnerHamster.age,
-      loves: winnerHamster.loves,  
-      title: "Winner",
-      name: winnerHamster.name,
-      imgName: winnerHamster.imgName,
-      id: winnerHamster.id,
-      games: winnerHamster.games + 1,
-      wins: winnerHamster.wins + 1,
-      defeats: winnerHamster.defeats,
+  const hamsterClick = (didHamsterUnoWin) => {
+    setDidHamsterUnoWin(didHamsterUnoWin)
+
+    setHamsterUno({
+      age: hamsterUno.age,
+      loves: hamsterUno.loves,  
+      title: didHamsterUnoWin ? "Winner" : "Loser",
+      name: hamsterUno.name,
+      imgName: hamsterUno.imgName,
+      id: hamsterUno.id,
+      games: hamsterUno.games + 1,
+      wins: didHamsterUnoWin ? hamsterUno.wins + 1 : hamsterUno.wins,
+      defeats: didHamsterUnoWin ? hamsterUno.defeats : hamsterUno.defeats + 1,
     });
-
-    setLoser({
-      age: loserHamster.age,
-      loves: loserHamster.loves,  
-      title: "Loser",  
-      name: loserHamster.name,
-      imgName: loserHamster.imgName,
-      id: loserHamster.id,
-      games: loserHamster.games + 1,
-      wins: loserHamster.wins,
-      defeats: loserHamster.defeats + 1,
+    setHamsterDos({
+      age: hamsterDos.age,
+      loves: hamsterDos.loves,  
+      title: didHamsterUnoWin ? "Loser" : "Winner",  
+      name: hamsterDos.name,
+      imgName: hamsterDos.imgName,
+      id: hamsterDos.id,
+      games: hamsterDos.games + 1,
+      wins: didHamsterUnoWin ? hamsterDos.wins : hamsterDos.wins + 1,
+      defeats: didHamsterUnoWin ? hamsterDos.defeats + 1 : hamsterDos.defeats,
     });
-    if (winnerHamster.id === hamsterUno.id) {
-      setHamsterUno(
-      {
-        age: winnerHamster.age,
-        loves: winnerHamster.loves,  
-        title: "Winner",
-        name: winnerHamster.name,
-        imgName: winnerHamster.imgName,
-        id: winnerHamster.id,
-        games: winnerHamster.games + 1,
-        wins: winnerHamster.wins + 1,
-        defeats: winnerHamster.defeats,
-      });
-      setHamsterDos({
-        age: loserHamster.age,
-        loves: loserHamster.loves,  
-        title: "Loser",  
-        name: loserHamster.name,
-        imgName: loserHamster.imgName,
-        id: loserHamster.id,
-        games: loserHamster.games + 1,
-        wins: loserHamster.wins,
-        defeats: loserHamster.defeats + 1,
-      });
-    } else {
-      setHamsterUno({
-        age: loserHamster.age,
-        loves: loserHamster.loves,  
-        title: "Loser",  
-        name: loserHamster.name,
-        imgName: loserHamster.imgName,
-        id: loserHamster.id,
-        games: loserHamster.games + 1,
-        wins: loserHamster.wins,
-        defeats: loserHamster.defeats + 1,
-      });
-      setHamsterDos({
-        age: winnerHamster.age,
-        loves: winnerHamster.loves,  
-        title: "Winner",
-        name: winnerHamster.name,
-        imgName: winnerHamster.imgName,
-        id: winnerHamster.id,
-        games: winnerHamster.games + 1,
-        wins: winnerHamster.wins + 1,
-        defeats: winnerHamster.defeats,
-      });
-    }
-    setClickedHamster(true);
-    console.log("winner: " + winnerHamster.name, "Loser: " + loserHamster.name);
-
-
     
+    setClickedHamster(true);
   };
 
   useEffect(() => {
-    if (winner != null) {
+    if (didHamsterUnoWin != null) {
       const matchPost = async () => {
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            winnerId: winner?.id,
-            loserId: loser?.id,
+            winnerId: didHamsterUnoWin ? hamsterUno?.id : hamsterDos?.id,
+            loserId: didHamsterUnoWin ? hamsterDos?.id : hamsterUno?.id,
           }),
         };
 
@@ -138,13 +86,13 @@ const Match = (trigger) => {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            wins: winner?.wins,
-            games: winner?.games,
+            wins: didHamsterUnoWin ? hamsterUno?.wins : hamsterDos?.wins,
+            games: didHamsterUnoWin ? hamsterUno?.games : hamsterDos?.games,
           }),
         };
 
         await fetch(
-          `https://hamsterwars-sinan.herokuapp.com/hamsters/${winner?.id}`,
+          `https://hamsterwars-sinan.herokuapp.com/hamsters/${didHamsterUnoWin ? hamsterUno?.id : hamsterDos?.id}`,
           requestOptions
         );
       };
@@ -154,13 +102,13 @@ const Match = (trigger) => {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            defeats: loser?.defeats,
-            games: loser?.games,
+            defeats: didHamsterUnoWin ? hamsterDos?.defeats : hamsterUno?.defeats,
+            games: didHamsterUnoWin ? hamsterDos?.games : hamsterUno?.games,
           }),
         };
 
         await fetch(
-          `https://hamsterwars-sinan.herokuapp.com/hamsters/${loser?.id}`,
+          `https://hamsterwars-sinan.herokuapp.com/hamsters/${didHamsterUnoWin ? hamsterDos?.id : hamsterUno?.id}`,
           requestOptions
         );
       };
@@ -169,7 +117,7 @@ const Match = (trigger) => {
       winnerUpdate();
       loserUpdate();
     }
-  }, [winner, loser]);
+  }, [didHamsterUnoWin]);
 
   return (
     <>
@@ -190,7 +138,7 @@ const Match = (trigger) => {
                     </div>
                 ) : null}
                 <span>
-                    <a onClick={() => hamsterClick(hamsterUno, hamsterDos)}></a>
+                    <a onClick={() => hamsterClick(true)}></a>
                 </span>
             </div>
 
@@ -210,7 +158,7 @@ const Match = (trigger) => {
                     </div>
                 ) : null}
                 <span>
-                    <a onClick={() => hamsterClick(hamsterDos, hamsterUno)}></a>
+                    <a onClick={() => hamsterClick(false)}></a>
                 </span>
             </div>
       </div>
@@ -219,4 +167,3 @@ const Match = (trigger) => {
 };
 
 export default Match
-
