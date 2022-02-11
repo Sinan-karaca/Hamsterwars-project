@@ -1,38 +1,39 @@
-import { useState, useEffect } from "react";
-import "./Match.css";
+import { useState, useEffect } from "react"
+import "./Match.css"
 
 const Match = (trigger) => {
-  const [hamsterUno, setHamsterUno] = useState(null);
-  const [hamsterDos, setHamsterDos] = useState(null);
-  const [didHamsterUnoWin, setDidHamsterUnoWin] = useState(null);
-  const [clickedHamster, setClickedHamster] = useState(false);
+  const [hamsterUno, setHamsterUno] = useState(null)
+  const [hamsterDos, setHamsterDos] = useState(null)
+  const [didHamsterUnoWin, setDidHamsterUnoWin] = useState(null)
+  const [clickedHamster, setClickedHamster] = useState(false)
   
 
   const fetchHamster = async () => {
     const resp = await fetch(
       "https://hamsterwars-sinan.herokuapp.com/hamsters/random"
     );
-    const data = await resp.json();
-    return data;
+    const data = await resp.json()
+    return data
   };
 
   useEffect(() => {
     const getHamsters = async () => {
-      let firstHamster = await fetchHamster();
-      let secondHamster;
-      let secondHamsterFound = false;
+      let firstHamster = await fetchHamster()
+      let secondHamster
+      let secondHamsterFound = false
       while (!secondHamsterFound) {
         secondHamster = await fetchHamster();
         if (secondHamster.id !== firstHamster.id) {
-          secondHamsterFound = true;
+          secondHamsterFound = true
         }
       }
 
-      setHamsterUno(firstHamster);
-      setHamsterDos(secondHamster);
+      setHamsterUno(firstHamster)
+      setHamsterDos(secondHamster)
+      setClickedHamster(false)
     };
-    getHamsters();
-  }, [trigger]);
+    getHamsters()
+  }, [trigger])
 
   const hamsterClick = (didHamsterUnoWin) => {
     setDidHamsterUnoWin(didHamsterUnoWin)
@@ -47,7 +48,7 @@ const Match = (trigger) => {
       games: hamsterUno.games + 1,
       wins: didHamsterUnoWin ? hamsterUno.wins + 1 : hamsterUno.wins,
       defeats: didHamsterUnoWin ? hamsterUno.defeats : hamsterUno.defeats + 1,
-    });
+    })
     setHamsterDos({
       age: hamsterDos.age,
       loves: hamsterDos.loves,  
@@ -58,7 +59,7 @@ const Match = (trigger) => {
       games: hamsterDos.games + 1,
       wins: didHamsterUnoWin ? hamsterDos.wins : hamsterDos.wins + 1,
       defeats: didHamsterUnoWin ? hamsterDos.defeats + 1 : hamsterDos.defeats,
-    });
+    })
     
     setClickedHamster(true);
   };
@@ -73,13 +74,13 @@ const Match = (trigger) => {
             winnerId: didHamsterUnoWin ? hamsterUno?.id : hamsterDos?.id,
             loserId: didHamsterUnoWin ? hamsterDos?.id : hamsterUno?.id,
           }),
-        };
+        }
 
         await fetch(
           "https://hamsterwars-sinan.herokuapp.com/matches/",
           requestOptions
-        );
-      };
+        )
+      }
 
       const winnerUpdate = async () => {
         const requestOptions = {
@@ -89,13 +90,13 @@ const Match = (trigger) => {
             wins: didHamsterUnoWin ? hamsterUno?.wins : hamsterDos?.wins,
             games: didHamsterUnoWin ? hamsterUno?.games : hamsterDos?.games,
           }),
-        };
+        }
 
         await fetch(
           `https://hamsterwars-sinan.herokuapp.com/hamsters/${didHamsterUnoWin ? hamsterUno?.id : hamsterDos?.id}`,
           requestOptions
-        );
-      };
+        )
+      }
 
       const loserUpdate = async () => {
         const requestOptions = {
@@ -105,26 +106,26 @@ const Match = (trigger) => {
             defeats: didHamsterUnoWin ? hamsterDos?.defeats : hamsterUno?.defeats,
             games: didHamsterUnoWin ? hamsterDos?.games : hamsterUno?.games,
           }),
-        };
+        }
 
         await fetch(
           `https://hamsterwars-sinan.herokuapp.com/hamsters/${didHamsterUnoWin ? hamsterDos?.id : hamsterUno?.id}`,
           requestOptions
-        );
-      };
+        )
+      }
 
-      matchPost();
-      winnerUpdate();
-      loserUpdate();
+      matchPost()
+      winnerUpdate()
+      loserUpdate()
     }
-  }, [didHamsterUnoWin]);
+  }, [didHamsterUnoWin])
 
   return (
     <>
       <div className="hamster-container">
             <div className="hamster-box">
                 {hamsterUno ? (
-                    <img src={require(`../../../img/${hamsterUno.imgName}`)}></img>
+                    <img src={require(`../../../img/${hamsterUno.imgName}`)}/>
                 ) : null}
                 <p>Name: {hamsterUno?.name}</p>
                 <p>Age: {hamsterUno?.age}</p>
@@ -144,7 +145,7 @@ const Match = (trigger) => {
 
             <div className="hamster-box">
                 {hamsterDos ? (
-                    <img src={require(`../../../img/${hamsterDos.imgName}`)}></img>
+                    <img src={require(`../../../img/${hamsterDos.imgName}`)}/>
                 ) : null}
                 <p> Name: {hamsterDos?.name}</p>
                 <p>Age: {hamsterDos?.age}</p>

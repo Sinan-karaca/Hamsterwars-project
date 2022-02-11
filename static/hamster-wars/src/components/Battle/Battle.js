@@ -26,16 +26,6 @@ const Battle = () => {
       setChangeText(true)
     }
 
-    // const postBattle = (win , loss) =>{
-    //   setWinner(win)
-    //   setLoser(loss)
-    //   setDisplayResults(true)
-    // }
-
-  // const newBattle = () => {
-  //   setDisplayHamster(false)
-  // }
-  
   return (
     <>
       <div className="container">
