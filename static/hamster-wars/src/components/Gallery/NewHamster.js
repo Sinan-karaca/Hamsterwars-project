@@ -61,15 +61,7 @@ const NewHamster = () => {
             games: 0,
         });
         console.log(stringfy);
-        if (
-            name &&
-            loves &&
-            favFood &&
-            imgName &&
-            !isNaN(age) &&
-            age > 0 &&
-            age < 10
-        ) {
+        if (name && loves && favFood && imgName && !isNaN(age)) {
             await fetch("https://hamsterwars-sinan.herokuapp.com/hamsters/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
