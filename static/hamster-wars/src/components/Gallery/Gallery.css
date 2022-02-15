@@ -26,3 +26,38 @@ figcaption {
     padding: 3px;
     text-align: center;
 }
+
+h1 {
+    text-align: center;
+    color: whitesmoke;
+}
+
+ul {
+    text-align: center;
+}
+
+.nav-item {
+    color: whitesmoke;
+    display: inline;
+    padding: 2rem 2rem;
+    cursor: pointer;
+}
+
+.delete {
+    margin-right: 16px;
+    height: 24px;
+    width: 24px;
+    color: red;
+    text-align: center;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 3rem;
+}
+
+span {
+    color: whitesmoke;
+}

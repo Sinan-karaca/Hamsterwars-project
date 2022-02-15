@@ -1,5 +1,4 @@
-import e from "cors";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./NewHamster.css";
 
 const NewHamster = () => {
@@ -15,8 +14,10 @@ const NewHamster = () => {
     const [validImgName, setValidImgName] = useState(true);
 
     const validateName = () => {
+        const regex = "^[A-Za-z]*$";
         if (name === "") {
             setValidName(false);
+        } else if (name.length < 3 && name.length < 10 && name.match(regex)) {
         }
     };
 
@@ -62,6 +63,7 @@ const NewHamster = () => {
         });
         console.log(stringfy);
         if (name && loves && favFood && imgName && !isNaN(age)) {
+            alert("Your hamster have been added!");
             await fetch("https://hamsterwars-sinan.herokuapp.com/hamsters/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -126,8 +128,9 @@ const NewHamster = () => {
                     <div className="box">
                         <label>Hamster image</label>
                         <input
-                            type="file"
+                            type="text"
                             value={imgName}
+                            placeholder="Ex: hamster-5.jpg"
                             onBlur={validateImgName}
                             onChange={(e) => setImgName(e.target.value)}
                             required=""

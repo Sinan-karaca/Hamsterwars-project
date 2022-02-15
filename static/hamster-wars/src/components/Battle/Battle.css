@@ -26,6 +26,10 @@ p {
     margin-bottom: 4rem;
 }
 
+h2 {
+    text-align: center;
+}
+
 button,
 button::after {
     width: 380px;
