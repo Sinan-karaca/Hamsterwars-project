@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Gallery.css";
-import NewHamster from "./NewHamster";
+import { Link } from "react-router-dom";
 
 const Gallery = () => {
-    const [hamsterArray, setHamsterArray] = useState(null);
     const [showInfo, setShowInfo] = useState(false);
     const [hamsters, setHamsters] = useState([]);
-    const [displayInfoArray, setDisplayInfoArray] = useState([]);
     const [trigger, setTrigger] = useState(0);
 
     const changeInfo = () => {
@@ -36,9 +34,10 @@ const Gallery = () => {
         );
         setTrigger(trigger + 1);
     };
-    const InfoOnClick = [];
+
+    const infoOnClick = [];
     for (let i = 0; i < hamsters.length; i++) {
-        InfoOnClick.push(
+        infoOnClick.push(
             <div onClick={changeInfo} key={hamsters[i].id}>
                 <figure>
                     <span>Favorite food: {hamsters[i].favFood}</span>
@@ -79,9 +78,16 @@ const Gallery = () => {
 
     return (
         <>
-            <h1>You can get information about the hamster by clicking on it</h1>
+            <Link className="addHamster" to="/newHamster">
+                Add new Hamster
+            </Link>
+            <h1>
+                You can get information about the hamster by clicking on one of
+                them
+            </h1>
+
             <div className="gallery">
-                {showInfo ? InfoOnClick : hamsterGrid}
+                {showInfo ? infoOnClick : hamsterGrid}
             </div>
         </>
     );

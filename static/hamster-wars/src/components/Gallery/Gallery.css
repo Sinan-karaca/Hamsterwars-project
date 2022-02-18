@@ -6,6 +6,13 @@
     margin: 0;
 }
 
+.addHamster {
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
 figure {
     display: flex;
     flex-flow: column;
@@ -25,6 +32,7 @@ figcaption {
     font: italic smaller sans-serif;
     padding: 3px;
     text-align: center;
+    font-size: larger;
 }
 
 h1 {
@@ -44,11 +52,11 @@ ul {
 }
 
 .delete {
-    margin-right: 16px;
-    height: 24px;
-    width: 24px;
     color: red;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    font-size: x-large;
 }
 
 button {

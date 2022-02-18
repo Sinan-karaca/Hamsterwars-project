@@ -16,9 +16,6 @@ const Navbar = () => {
                     <Link className="nav-item" to="/gallery">
                         Gallery
                     </Link>
-                    <Link className="nav-item" to="/newHamster">
-                        Add new Hamster
-                    </Link>
                 </ul>
             </nav>
         </>

@@ -153,7 +153,7 @@ const Match = (trigger) => {
                     <p>Loves: {hamsterUno?.loves}</p>
                     {clickedHamster ? (
                         <div>
-                            <h2>{hamsterUno.title}</h2>
+                            <h3>{hamsterUno.title}</h3>
                             <h3>Wins: {hamsterUno.wins}</h3>
                             <h3>Defeats: {hamsterUno.defeats}</h3>
                             <h3>Games: {hamsterUno.games}</h3>
@@ -175,7 +175,7 @@ const Match = (trigger) => {
                     <p>Loves: {hamsterDos?.loves}</p>
                     {clickedHamster ? (
                         <div>
-                            <h2>{hamsterDos.title}</h2>
+                            <h3>{hamsterDos.title}</h3>
                             <h3>Wins: {hamsterDos.wins}</h3>
                             <h3>Defeats: {hamsterDos.defeats}</h3>
                             <h3>Games: {hamsterDos.games}</h3>
