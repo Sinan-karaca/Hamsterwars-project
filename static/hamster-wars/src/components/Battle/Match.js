@@ -9,7 +9,7 @@ const Match = (trigger) => {
 
     const fetchHamster = async () => {
         const resp = await fetch(
-            "https://hamsterwars-sinan.herokuapp.com/hamsters/random"
+            "https://hamsterwarz-sinan.herokuapp.com/hamsters/random"
         );
         const data = await resp.json();
         return data;
