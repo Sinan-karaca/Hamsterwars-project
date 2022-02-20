@@ -4,5 +4,5 @@ Hamsterwars projektet är en del av kursen Effektiv frontendutveckling. Har anv�
 # För att starta backend:
 npm run start
 
-#För att starta frontend:
+# För att starta frontend:
 npm run start i hamster-wars mappen
